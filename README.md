@@ -2,15 +2,16 @@
 
 A new Flutter project.
 
-## Getting Started
+## Running the Program
 
-This project is a starting point for a Flutter application.
+To run the program, first create a **.env** file
 
-A few resources to get you started if this is your first Flutter project:
+Inside the file add your OpenAI API key in the format:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+```
+OPEN_AI_API_KEY="<your api key>"
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Next, run **flutter pub get** to install all dependencies.
+
+Finally, run with the **flutter run** comamnd.
