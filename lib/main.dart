@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           Text(data.name),
                           data == RecordState.record
                               ? TextButton(
-                                  onPressed: translator.pauseRecording,
+                                  onPressed: translator.stopRecording,
                                   child: const Text('Recording...'),
                                 )
                               : TextButton(

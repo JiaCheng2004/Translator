@@ -14,16 +14,22 @@ class IllegalArgumentException implements Exception {
 }
 
 class Translator {
+  // Normalization constants
   static const pcm16BitMax = 32767;
   static const pcm16BitMin = pcm16BitMax + 1;
   static const reductionRatio = 0.7;
+
+  static const sparsityThreshold = 0.8;
+  static const audioCaptureSeconds = 5;
   static const recorderSettings = RecordConfig(encoder: AudioEncoder.pcm16bits);
   static const recordingFileName = 'translator_data.wav';
+  static const translationFileName = 'translation.';
 
   final recorder = AudioRecorder();
   StreamSubscription<Uint8List>? subscription;
   List<double> leftBuffer = [];
   List<double> rightBuffer = [];
+  String sessionText = '';
 
   static final Translator _instance = Translator._sharedInstance();
 
@@ -56,11 +62,31 @@ class Translator {
           rightBuffer.add(val);
         }
       }
+
+      final bufferMaxLen = recorderSettings.sampleRate * audioCaptureSeconds;
+      if (leftBuffer.length >= bufferMaxLen) {
+        pauseRecording();
+      }
     });
   }
 
+  void stopRecording() async {
+    await recorder.stop();
+    await subscription?.cancel();
+
+    sessionText = '';
+    leftBuffer = [];
+    rightBuffer = [];
+    subscription = null;
+  }
+
   void pauseRecording() async {
-    await recorder.pause();
+    if (_isSparse()) {
+      leftBuffer = [];
+      rightBuffer = [];
+      return;
+    }
+
     final directory = await getApplicationCacheDirectory();
     final file = File('${directory.path}/$recordingFileName');
     final wav = Wav(
@@ -70,12 +96,15 @@ class Translator {
       ],
       recorderSettings.sampleRate,
     );
-    await wav.writeFile(file.path);
-
     leftBuffer = [];
     rightBuffer = [];
-    await playAudioFile(file);
-    await file.delete();
+    await wav.writeFile(file.path);
+
+    final translatedString = await translateAudioFile(file);
+    if (translatedString.trim().isNotEmpty) {
+      await playText(translatedString);
+      sessionText += ' $translatedString';
+    }
   }
 
   Future<String> translateAudioFile(File file) async {
@@ -86,19 +115,39 @@ class Translator {
       file: file,
       model: 'whisper-1',
       prompt:
-          'Translate the audio to english, making it sound as local to english as possible.',
+          'ALL OUTPUTS SHOULD BE IN ENGLISH!!!! Please DO NOT add your own voice!'
+          'Also connect the message to the whole conversation to make it flow nicely'
+          'like a translation stream. This is the previous text: $sessionText',
       responseFormat: OpenAIAudioResponseFormat.text,
     );
     return translation.text;
   }
 
   Future<void> playAudioFile(File file) async {
-    if (file.path.split('.').last != 'wav') {
+    final extension = file.path.split('.').last;
+    if (extension != 'wav' && extension != 'mp3') {
       throw IllegalArgumentException('Invalid file argument: ${file.path}');
     }
     final player = AudioPlayer();
     await player.setFilePath(file.path);
     await player.play();
+  }
+
+  Future<void> playText(String text) async {
+    final directory = await getApplicationCacheDirectory();
+    File speechFile = await OpenAI.instance.audio.createSpeech(
+      model: 'tts-1',
+      voice: 'nova',
+      input: text,
+      outputDirectory: directory,
+      outputFileName: translationFileName,
+    );
+    playAudioFile(speechFile);
+  }
+
+  bool _isSparse() {
+    final sparseCount = leftBuffer.where((sample) => sample.abs() < 0.1).length;
+    return (sparseCount / leftBuffer.length) > sparsityThreshold;
   }
 
   double _rescale(int val) {
