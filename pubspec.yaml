@@ -42,6 +42,7 @@ dependencies:
   dart_openai: ^5.0.0
   just_audio: ^0.9.36
   flutter_dotenv: ^5.1.0
+  dynamic_color: ^1.6.9
 
 dev_dependencies:
   flutter_test:

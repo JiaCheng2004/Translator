@@ -24,12 +24,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Deep Translator',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue.shade200),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title:''),
     );
   }
 }
@@ -57,6 +57,18 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
+        actions: [
+          Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.menu, color: Colors.white, size: 35.0),
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            ),
+          ),
+        ],
+      ),
+      endDrawer: Drawer(
+        // Add your drawer widgets here
       ),
       body: FutureBuilder(
         future: Permission.microphone.status,
@@ -81,16 +93,79 @@ class _MyHomePageState extends State<MyHomePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Text(data.name),
                           data == RecordState.record
-                              ? TextButton(
-                                  onPressed: translator.stopRecording,
-                                  child: const Text('Recording...'),
+                              ? ElevatedButton(
+                                  onPressed: translator.startRecording, // Implement language change feature
+                                  child: Text('Translating...', style: TextStyle(color: Colors.lightBlue.shade900)),
+                                  style: ElevatedButton.styleFrom(
+                                    surfaceTintColor: Color(0XFFFFFFFF),
+                                    shadowColor: Colors.lightBlue.shade200,
+                                    elevation: 4.0,
+                                    shape: CircleBorder(side: BorderSide(color: Colors.lightBlue.shade100, width: 1.5)),
+                                    fixedSize: Size(300, 300),
+                                  ),
                                 )
-                              : TextButton(
-                                  onPressed: translator.startRecording,
-                                  child: const Text('Start Translating'),
-                                )
+                              : ElevatedButton(
+                                  onPressed: translator.stopRecording, // Implement language change feature
+                                  child: Text('Translate', 
+                                    style: TextStyle(
+                                      color: Colors.lightBlue.shade400,
+                                      fontSize: 50,
+                                      fontFamily: 'Thin',
+                                      fontWeight: FontWeight.w100,
+                                      ),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    surfaceTintColor: Color(0XFFFFFFFF),
+                                    shadowColor: Colors.lightBlue.shade200,
+                                    elevation: 4.0,
+                                    shape: CircleBorder(side: BorderSide(color: Colors.lightBlue.shade100, width: 1.5)),
+                                    fixedSize: Size(300, 300),
+                                  ),
+                                ),
+
+                            SizedBox(height: 75),
+
+                            ElevatedButton(
+                              onPressed: () {}, // Implement language change feature
+                                  child: Text('Language',
+                                    style: TextStyle(
+                                        color: Colors.lightBlue.shade400,
+                                        fontSize: 30,
+                                        fontFamily: 'Thin',
+                                        fontWeight: FontWeight.w200,
+                                    ),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    surfaceTintColor: Color(0XFFFFFFFF),
+                                    shadowColor: Colors.lightBlue.shade200,
+                                    elevation: 4.0,
+                                    shape: RoundedRectangleBorder(side: BorderSide(color: Colors.lightBlue.shade100, width: 1.5), borderRadius: BorderRadius.circular(50)),
+                                    fixedSize: Size(275, 100),
+                                  ),
+                            ),
+
+                            SizedBox(height: 25),
+
+                            ElevatedButton(
+                              onPressed: () {}, // Implement language change feature
+                                  child: Text('Settings',
+                                   style: TextStyle(
+                                      color: Colors.lightBlue.shade400,
+                                      fontSize: 30,
+                                      fontFamily: 'Thin',
+                                      fontWeight: FontWeight.w200,
+                                      ),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    surfaceTintColor: Color(0XFFFFFFFF),
+                                    shadowColor: Colors.lightBlue.shade200,
+                                    elevation: 4.0,
+                                    shape: RoundedRectangleBorder(side: BorderSide(color: Colors.lightBlue.shade100, width: 1.5), borderRadius: BorderRadius.circular(50)),
+                                    fixedSize: Size(275, 100),
+                                  ),
+                            )
+
                         ],
                       ),
                     );

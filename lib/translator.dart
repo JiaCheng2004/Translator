@@ -52,7 +52,6 @@ class Translator {
     final recordStream = await recorder.startStream(recorderSettings);
     subscription = recordStream.listen((bytes) {
       final signedPCMData = recorder.convertBytesToInt16(bytes);
-
       for (int i = 0; i < signedPCMData.length; i++) {
         double val = _reduceSound(_rescale(signedPCMData[i]));
 
@@ -100,7 +99,11 @@ class Translator {
     rightBuffer = [];
     await wav.writeFile(file.path);
 
+    print(file.path);
+
     final translatedString = await translateAudioFile(file);
+
+    print(translatedString);
     if (translatedString.trim().isNotEmpty) {
       await playText(translatedString);
       sessionText += ' $translatedString';
@@ -114,10 +117,10 @@ class Translator {
     final translation = await OpenAI.instance.audio.createTranslation(
       file: file,
       model: 'whisper-1',
-      prompt:
-          'ALL OUTPUTS SHOULD BE IN ENGLISH!!!! Please DO NOT add your own voice!'
-          'Also connect the message to the whole conversation to make it flow nicely'
-          'like a translation stream. This is the previous text: $sessionText',
+      prompt: 'The audio you will hear is just a normal conversation, just translate it to English only',
+          // 'ALL OUTPUTS SHOULD BE IN ENGLISH!!!! Please DO NOT add your own voice!'
+          // 'Also connect the message to the whole conversation to make it flow nicely'
+          // 'like a translation stream. This is the previous text: $sessionText',
       responseFormat: OpenAIAudioResponseFormat.text,
     );
     return translation.text;
