@@ -117,7 +117,7 @@ class Translator {
     final translation = await OpenAI.instance.audio.createTranslation(
       file: file,
       model: 'whisper-1',
-      prompt: 'The audio you will hear is just a normal conversation, just translate it to English only',
+      prompt: 'English only, session: $sessionText',
           // 'ALL OUTPUTS SHOULD BE IN ENGLISH!!!! Please DO NOT add your own voice!'
           // 'Also connect the message to the whole conversation to make it flow nicely'
           // 'like a translation stream. This is the previous text: $sessionText',

@@ -95,24 +95,30 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: <Widget>[
                           data == RecordState.record
                               ? ElevatedButton(
-                                  onPressed: translator.startRecording, // Implement language change feature
-                                  child: Text('Translating...', style: TextStyle(color: Colors.lightBlue.shade900)),
+                                  onPressed: translator.stopRecording, // Implement language change feature
+                                  child: Text('Translating...', 
+                                    style: TextStyle(
+                                      color: Colors.lightBlue.shade400,
+                                      fontSize: 20,
+                                      fontFamily: 'Thin',
+                                      fontWeight: FontWeight.w300,
+                                      ),),
                                   style: ElevatedButton.styleFrom(
                                     surfaceTintColor: Color(0XFFFFFFFF),
                                     shadowColor: Colors.lightBlue.shade200,
                                     elevation: 4.0,
-                                    shape: CircleBorder(side: BorderSide(color: Colors.lightBlue.shade100, width: 1.5)),
+                                    shape: RoundedRectangleBorder(side: BorderSide(color: Colors.lightBlue.shade100, width: 1.5), borderRadius: BorderRadius.circular(50)),
                                     fixedSize: Size(300, 300),
                                   ),
                                 )
                               : ElevatedButton(
-                                  onPressed: translator.stopRecording, // Implement language change feature
+                                  onPressed: translator.startRecording, // Implement language change feature
                                   child: Text('Translate', 
                                     style: TextStyle(
                                       color: Colors.lightBlue.shade400,
                                       fontSize: 50,
                                       fontFamily: 'Thin',
-                                      fontWeight: FontWeight.w100,
+                                      fontWeight: FontWeight.w200,
                                       ),
                                   ),
                                   style: ElevatedButton.styleFrom(
@@ -128,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                             ElevatedButton(
                               onPressed: () {}, // Implement language change feature
-                                  child: Text('Language',
+                                  child: Text('English',
                                     style: TextStyle(
                                         color: Colors.lightBlue.shade400,
                                         fontSize: 30,
@@ -140,8 +146,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     surfaceTintColor: Color(0XFFFFFFFF),
                                     shadowColor: Colors.lightBlue.shade200,
                                     elevation: 4.0,
-                                    shape: RoundedRectangleBorder(side: BorderSide(color: Colors.lightBlue.shade100, width: 1.5), borderRadius: BorderRadius.circular(50)),
-                                    fixedSize: Size(275, 100),
+                                    shape: RoundedRectangleBorder(side: BorderSide(color: Colors.lightBlue.shade100, width: 1.5), borderRadius: BorderRadius.circular(25)),
+                                    fixedSize: Size(300, 80),
                                   ),
                             ),
 
@@ -161,8 +167,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     surfaceTintColor: Color(0XFFFFFFFF),
                                     shadowColor: Colors.lightBlue.shade200,
                                     elevation: 4.0,
-                                    shape: RoundedRectangleBorder(side: BorderSide(color: Colors.lightBlue.shade100, width: 1.5), borderRadius: BorderRadius.circular(50)),
-                                    fixedSize: Size(275, 100),
+                                    shape: RoundedRectangleBorder(side: BorderSide(color: Colors.lightBlue.shade100, width: 1.5), borderRadius: BorderRadius.circular(25)),
+                                    fixedSize: Size(300, 80),
                                   ),
                             )
 
