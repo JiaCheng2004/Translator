@@ -13,6 +13,8 @@ class IllegalArgumentException implements Exception {
   IllegalArgumentException(this.msg);
 }
 
+typedef TranslationCompleteHandler = void Function(String);
+
 class Translator {
   // Normalization constants
   static const pcm16BitMax = 32767;
@@ -23,10 +25,13 @@ class Translator {
   static const audioCaptureSeconds = 5;
   static const recorderSettings = RecordConfig(encoder: AudioEncoder.pcm16bits);
   static const recordingFileName = 'translator_data.wav';
-  static const translationFileName = 'translation.';
+  static const translationFileName = 'translation';
 
   final recorder = AudioRecorder();
+  StreamController<String> translationHistory =
+      StreamController<String>.broadcast();
   StreamSubscription<Uint8List>? subscription;
+
   List<double> leftBuffer = [];
   List<double> rightBuffer = [];
   String sessionText = '';
@@ -99,16 +104,16 @@ class Translator {
     rightBuffer = [];
     await wav.writeFile(file.path);
 
-    print(file.path);
-
     final translatedString = await translateAudioFile(file);
 
-    print(translatedString);
     if (translatedString.trim().isNotEmpty) {
-      await playText(translatedString);
       sessionText += ' $translatedString';
+      translationHistory.add(sessionText);
+      await playText(translatedString);
     }
   }
+
+  Stream<String> get translationHistoryStream => translationHistory.stream;
 
   Future<String> translateAudioFile(File file) async {
     if (file.path.split('.').last != 'wav') {
@@ -118,19 +123,15 @@ class Translator {
       file: file,
       model: 'whisper-1',
       prompt: 'English only, session: $sessionText',
-          // 'ALL OUTPUTS SHOULD BE IN ENGLISH!!!! Please DO NOT add your own voice!'
-          // 'Also connect the message to the whole conversation to make it flow nicely'
-          // 'like a translation stream. This is the previous text: $sessionText',
+      // 'ALL OUTPUTS SHOULD BE IN ENGLISH!!!! Please DO NOT add your own voice!'
+      // 'Also connect the message to the whole conversation to make it flow nicely'
+      // 'like a translation stream. This is the previous text: $sessionText',
       responseFormat: OpenAIAudioResponseFormat.text,
     );
     return translation.text;
   }
 
   Future<void> playAudioFile(File file) async {
-    final extension = file.path.split('.').last;
-    if (extension != 'wav' && extension != 'mp3') {
-      throw IllegalArgumentException('Invalid file argument: ${file.path}');
-    }
     final player = AudioPlayer();
     await player.setFilePath(file.path);
     await player.play();
@@ -142,6 +143,7 @@ class Translator {
       model: 'tts-1',
       voice: 'nova',
       input: text,
+      responseFormat: OpenAIAudioSpeechResponseFormat.aac,
       outputDirectory: directory,
       outputFileName: translationFileName,
     );
