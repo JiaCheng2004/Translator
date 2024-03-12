@@ -6,6 +6,10 @@ Our translation product, "Translator," utilizes AI technology to seamlessly tran
 
 ---
 
+[![Watch Demo](https://img.youtube.com/vi/eYqUQV51MrY/0.jpg)](https://www.youtube.com/watch?v=eYqUQV51MrY)
+
+---
+
 ### Tools Used
 
 - **Backend:** OpenAI's voice API for converting auditory signals into comprehensible audio.
