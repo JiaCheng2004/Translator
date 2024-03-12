@@ -6,7 +6,9 @@ Our translation product, "Translator," utilizes AI technology to seamlessly tran
 
 ---
 
+<center>
 [![Watch Demo](https://img.youtube.com/vi/eYqUQV51MrY/0.jpg)](https://www.youtube.com/watch?v=eYqUQV51MrY)
+</center>
 
 ---
 
