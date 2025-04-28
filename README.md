@@ -7,6 +7,7 @@ Our translation product, "Translator," utilizes AI technology to seamlessly tran
 ---
 
 <p align="center">
+  <strong>▶ Watch Demo</strong><br><br>
   <a href="https://www.youtube.com/watch?v=eYqUQV51MrY" target="_blank">
     <img
       src="https://img.youtube.com/vi/eYqUQV51MrY/maxresdefault.jpg"
