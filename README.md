@@ -6,7 +6,11 @@ Our translation product, "Translator," utilizes AI technology to seamlessly tran
 
 ---
 
-[![Watch Demo](https://img.youtube.com/vi/eYqUQV51MrY/0.jpg)](https://www.youtube.com/watch?v=eYqUQV51MrY)
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=eYqUQV51MrY" target="_blank">
+    <img src="https://img.youtube.com/vi/eYqUQV51MrY/0.jpg" alt="Watch Demo" />
+  </a>
+</p>
 
 ---
 
