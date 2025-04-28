@@ -6,20 +6,15 @@ Our translation product, "Translator," utilizes AI technology to seamlessly tran
 
 ---
 
-<p align="center" style="position: relative; display: inline-block;">
-  <a href="https://youtu.be/eYqUQV51MrY" target="_blank">
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=eYqUQV51MrY" target="_blank">
     <img
       src="https://img.youtube.com/vi/eYqUQV51MrY/maxresdefault.jpg"
       alt="Watch Demo"
-    />
-    <img
-      src="https://img.icons8.com/ios-filled/100/ffffff/play--v1.png"
-      alt="Play"
-      style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"
+      width="80%"
     />
   </a>
 </p>
-
 
 ---
 
